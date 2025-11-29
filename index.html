@@ -24,8 +24,8 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* Navigation Bar - Only in Home */
-        #home nav {
+        /* Navigation Bar - All Sections */
+        nav {
             position: absolute;
             top: 0;
             left: 0;
@@ -33,28 +33,63 @@
             background: transparent;
             z-index: 1000;
             padding: 2rem 4rem 1rem;
+            transform: translateY(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
         }
 
-        #home nav ul {
+        nav.nav-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        nav ul {
             list-style: none;
             display: flex;
             justify-content: flex-end;
             gap: 3rem;
             padding-bottom: 1rem;
-            border-bottom: 3px solid #2D3A2B;
+            border-bottom: 3px solid;
         }
 
-        #home nav a {
+        nav a {
             text-decoration: none;
             font-weight: 700;
             font-size: 1.2rem;
-            color: white;
             transition: opacity 0.3s;
             cursor: pointer;
         }
 
-        #home nav a:hover {
+        nav a:hover {
             opacity: 0.8;
+        }
+
+        /* Home Section Navigation */
+        #home nav ul {
+            border-bottom-color: #2D3A2B;
+        }
+
+        #home nav a {
+            color: white;
+        }
+
+        /* Upload Section Navigation */
+        #upload nav ul {
+            border-bottom-color: #2D3A2B;
+        }
+
+        #upload nav a {
+            color: #2D3A2B;
+        }
+
+        /* Results Section Navigation */
+        #results nav ul {
+            border-bottom-color: #8FA57D;
+        }
+
+        #results nav a {
+            color: white;
         }
 
         /* Section Styling */
@@ -66,6 +101,7 @@
             align-items: center;
             padding: 8rem 4rem 4rem;
             scroll-margin-top: 0;
+            position: relative;
         }
 
         /* Home Section */
@@ -78,7 +114,6 @@
             align-items: center;
             padding-left: 8rem;
             padding-right: 8rem;
-            position: relative;
         }
 
         .home-content {
@@ -94,8 +129,26 @@
         }
 
         .home-illustration img {
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
+            height: auto;
+            object-fit: contain;
+            animation: handshake 2.5s ease-in-out infinite;
+        }
+
+        @keyframes handshake {
+            0%, 100% {
+                transform: rotate(0deg) translateY(0);
+            }
+            25% {
+                transform: rotate(-3deg) translateY(-5px);
+            }
+            50% {
+                transform: rotate(0deg) translateY(0);
+            }
+            75% {
+                transform: rotate(3deg) translateY(-5px);
+            }
         }
 
         #home h1 {
@@ -178,14 +231,21 @@
             padding: 6rem 2rem;
             text-align: center;
             background: #E8EBE8;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
             margin-bottom: 2rem;
         }
 
         .drop-zone.dragover {
-            background: #D8DBD8;
-            transform: scale(1.01);
+            background: #8FA57D;
+            border-color: #2D5F2E;
+            border-style: solid;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(45, 95, 46, 0.3);
+        }
+
+        .drop-zone.dragover h3 {
+            color: white;
         }
 
         .drop-zone-icon {
@@ -210,18 +270,58 @@
         }
 
         .file-info {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 1rem;
+            background: rgba(46, 204, 113, 0.2);
+            border: 2px solid #2ECC71;
+            padding: 1rem 3rem 1rem 1rem;
             border-radius: 10px;
             margin-bottom: 1rem;
             display: none;
             text-align: center;
             color: #2D3A2B;
             font-weight: 600;
+            position: relative;
         }
 
         .file-info.show {
             display: block;
+        }
+
+        .file-info.error {
+            background: rgba(255, 59, 59, 0.2);
+            border: 2px solid #FF3B3B;
+        }
+
+        .file-size {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.3rem;
+            font-weight: 400;
+        }
+
+        .file-clear {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FF3B3B;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        .file-clear:hover {
+            opacity: 0.8;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .btn-evaluate {
@@ -414,25 +514,154 @@
         }
 
         /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Handshake animation is defined above with the .home-illustration img styles */
+
+        /* Custom Alert Modal */
+        .custom-alert-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeInUp {
+        .custom-alert-overlay.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-alert {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .custom-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .custom-alert-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .custom-alert-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .custom-alert-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 2rem;
+            white-space: pre-line;
+        }
+
+        .custom-alert-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .custom-alert-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Success Alert */
+        .custom-alert.success .custom-alert-icon {
+            color: #2ECC71;
+        }
+
+        .custom-alert.success .custom-alert-title {
+            color: #2ECC71;
+        }
+
+        .custom-alert.success .custom-alert-button {
+            background: #2ECC71;
+            color: white;
+        }
+
+        /* Error Alert */
+        .custom-alert.error .custom-alert-icon {
+            color: #FF3B3B;
+        }
+
+        .custom-alert.error .custom-alert-title {
+            color: #FF3B3B;
+        }
+
+        .custom-alert.error .custom-alert-button {
+            background: #FF3B3B;
+            color: white;
+        }
+
+        /* Info Alert */
+        .custom-alert.info .custom-alert-icon {
+            color: #8FA57D;
+        }
+
+        .custom-alert.info .custom-alert-title {
+            color: #8FA57D;
+        }
+
+        .custom-alert.info .custom-alert-button {
+            background: #8FA57D;
+            color: white;
+        }
+
+        /* Warning Alert */
+        .custom-alert.warning .custom-alert-icon {
+            color: #F4C8A0;
+        }
+
+        .custom-alert.warning .custom-alert-title {
+            color: #2D3A2B;
+        }
+
+        .custom-alert.warning .custom-alert-button {
+            background: #F4C8A0;
+            color: #2D3A2B;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-50px) scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -456,23 +685,38 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            #home {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            #home h1 {
+                font-size: 4.5rem;
+            }
+
+            .home-illustration img {
+                max-width: 350px;
+            }
+        }
+
         @media (max-width: 768px) {
-            #home nav {
+            nav {
                 padding: 1.5rem 2rem 0.5rem;
             }
 
-            #home nav ul {
+            nav ul {
                 gap: 1.5rem;
             }
 
-            #home nav a {
+            nav a {
                 font-size: 1rem;
             }
 
             #home {
                 flex-direction: column;
                 padding: 6rem 2rem 2rem;
-                text-align: center;
+                gap: 2rem;
             }
 
             .home-content {
@@ -485,10 +729,25 @@
 
             #home .subtitle {
                 font-size: 1.2rem;
+                margin-bottom: 2rem;
             }
 
-            .home-illustration svg {
-                max-width: 300px;
+            .home-illustration {
+                order: -1;
+                margin-top: 2rem;
+            }
+
+            .home-illustration img {
+                max-width: 280px;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 6rem 2rem 2rem;
             }
 
             .container, .results-container {
@@ -499,6 +758,15 @@
                 font-size: 2rem;
             }
 
+            .drop-zone {
+                padding: 4rem 1.5rem;
+            }
+
+            .btn-evaluate, .btn-add-question {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+
             .input-row {
                 flex-direction: column;
             }
@@ -506,10 +774,69 @@
             .input-weight {
                 width: 100%;
             }
+
+            .question-box {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem 1rem 0.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+            }
+
+            #home h1 {
+                font-size: 2.5rem;
+            }
+
+            #home .subtitle {
+                font-size: 1rem;
+            }
+
+            .home-illustration img {
+                max-width: 220px;
+            }
+
+            .cta-button {
+                padding: 0.9rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .container h2, .results-container h2 {
+                font-size: 1.6rem;
+            }
+
+            .question-matrix h3 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 5rem 1.5rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Custom Alert Modal -->
+    <div class="custom-alert-overlay" id="customAlertOverlay">
+        <div class="custom-alert" id="customAlert">
+            <div class="custom-alert-header">
+                <div class="custom-alert-icon" id="customAlertIcon"></div>
+                <h3 class="custom-alert-title" id="customAlertTitle"></h3>
+            </div>
+            <div class="custom-alert-message" id="customAlertMessage"></div>
+            <button class="custom-alert-button" id="customAlertButton">OK</button>
+        </div>
+    </div>
 
     <!-- Home Section -->
     <section id="home">
@@ -524,28 +851,23 @@
         <div class="home-content">
             <h1>JUSTWORK</h1>
             <p class="subtitle">Justice with Work</p>
-            <button class="cta-button" onclick="scrollToSection('upload')">Resume Evaluator</button>
+            <button class="cta-button" onclick="scrollToSection('upload')">Resume Form</button>
         </div>
         <div class="home-illustration">
-            <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                <!-- Handshake Illustration -->
-                <g transform="translate(50, 100)">
-                    <!-- Left hand (blue sleeve) -->
-                    <rect x="0" y="80" width="120" height="60" fill="#2C4E7E" rx="10"/>
-                    <rect x="5" y="85" width="110" height="15" fill="#B8C9E8"/>
-                    <path d="M 100 100 Q 130 90, 160 100 L 160 140 Q 130 150, 100 140 Z" fill="#E8A87C"/>
-
-                    <!-- Right hand (blue sleeve) -->
-                    <rect x="180" y="80" width="120" height="60" fill="#2C4E7E" rx="10"/>
-                    <rect x="185" y="85" width="110" height="15" fill="#B8C9E8"/>
-                    <path d="M 200 100 Q 170 90, 140 100 L 140 140 Q 170 150, 200 140 Z" fill="#D89968"/>
-                </g>
-            </svg>
+            <img src="Handshake.png" alt="Handshake illustration">
         </div>
     </section>
 
     <!-- Upload Section -->
     <section id="upload">
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <li><a onclick="scrollToSection('home')">Home</a></li>
+                <li><a onclick="scrollToSection('results')">Result & Question</a></li>
+            </ul>
+        </nav>
+
         <div class="container">
             <h2>Upload Resume</h2>
 
@@ -555,7 +877,11 @@
             </div>
 
             <div class="file-info" id="fileInfo">
-                <strong>Selected file:</strong> <span id="fileName"></span>
+                <div>
+                    <strong>Selected file:</strong> <span id="fileName"></span>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+                <button class="file-clear" onclick="clearFile()" title="Clear file">&times;</button>
             </div>
 
             <button class="btn-evaluate" id="evaluateBtn" onclick="evaluateResume()">
@@ -568,6 +894,14 @@
 
     <!-- Results Section -->
     <section id="results">
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <li><a onclick="scrollToSection('home')">Home</a></li>
+                <li><a onclick="scrollToSection('results')">Result & Question</a></li>
+            </ul>
+        </nav>
+
         <div class="results-container">
             <h2>Evaluation Results</h2>
 
@@ -583,6 +917,55 @@
 
     <script>
         // ==========================================
+        // CUSTOM ALERT FUNCTION
+        // ==========================================
+        function showCustomAlert(type, title, message) {
+            const overlay = document.getElementById('customAlertOverlay');
+            const alert = document.getElementById('customAlert');
+            const icon = document.getElementById('customAlertIcon');
+            const titleEl = document.getElementById('customAlertTitle');
+            const messageEl = document.getElementById('customAlertMessage');
+            const button = document.getElementById('customAlertButton');
+
+            // Set icon based on type
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            icon.textContent = icons[type] || icons.info;
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+
+            // Remove all type classes and add the current one
+            alert.className = 'custom-alert ' + type;
+
+            // Show overlay
+            overlay.classList.add('show');
+
+            // Close on button click
+            button.onclick = function() {
+                overlay.classList.remove('show');
+            };
+
+            // Close on overlay click
+            overlay.onclick = function(e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove('show');
+                }
+            };
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.classList.contains('show')) {
+                    overlay.classList.remove('show');
+                }
+            });
+        }
+
+        // ==========================================
         // NAVIGATION
         // ==========================================
         function scrollToSection(sectionId) {
@@ -591,6 +974,46 @@
             });
         }
 
+        // Hide/Show Navigation on Scroll
+        let scrollTimer;
+        let isScrolling = false;
+
+        function hideNavbars() {
+            const navbars = document.querySelectorAll('nav');
+            navbars.forEach(nav => {
+                nav.classList.add('nav-hidden');
+            });
+            isScrolling = true;
+        }
+
+        function showNavbars() {
+            const navbars = document.querySelectorAll('nav');
+            navbars.forEach(nav => {
+                nav.classList.remove('nav-hidden');
+            });
+            isScrolling = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            // Hide navbar immediately when scrolling starts
+            if (!isScrolling) {
+                hideNavbars();
+            }
+
+            // Clear the previous timer
+            clearTimeout(scrollTimer);
+
+            // Set a new timer to show navbar after scrolling stops
+            scrollTimer = setTimeout(function() {
+                showNavbars();
+            }, 150); // Show navbar 150ms after scrolling stops
+        });
+
+        // Show navbar on page load
+        window.addEventListener('load', function() {
+            showNavbars();
+        });
+
         // ==========================================
         // DRAG AND DROP FUNCTIONALITY
         // ==========================================
@@ -598,6 +1021,8 @@
         const fileInput = document.getElementById('fileInput');
         const fileInfo = document.getElementById('fileInfo');
         const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
         // Click to open file dialog
         dropZone.addEventListener('click', () => {
@@ -646,16 +1071,81 @@
             handleFiles(this.files);
         });
 
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+        }
+
         function handleFiles(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.type === 'application/pdf') {
-                    fileName.textContent = file.name;
-                    fileInfo.classList.add('show');
-                } else {
-                    alert('Please upload a PDF file');
-                }
+            // Clear any previous error states
+            fileInfo.classList.remove('error');
+
+            if (files.length === 0) {
+                return;
             }
+
+            const file = files[0];
+
+            // Validation 1: Check if file is PDF
+            if (file.type !== 'application/pdf') {
+                fileInfo.classList.add('show', 'error');
+                fileName.textContent = 'Error: Please upload a PDF file only';
+                fileSize.textContent = '';
+                fileInput.value = '';
+
+                setTimeout(() => {
+                    showCustomAlert('error', 'Invalid File Type', 'Please upload a PDF file only.\nOther file formats are not supported.');
+                }, 100);
+                return;
+            }
+
+            // Validation 2: Check file size (max 10MB)
+            if (file.size > MAX_FILE_SIZE) {
+                fileInfo.classList.add('show', 'error');
+                fileName.textContent = 'Error: File too large';
+                fileSize.textContent = `File size: ${formatFileSize(file.size)} (Maximum: 10 MB)`;
+                fileInput.value = '';
+
+                setTimeout(() => {
+                    showCustomAlert('error', 'File Size Exceeded', `Your file is ${formatFileSize(file.size)}\nMaximum allowed size is 10 MB.\n\nPlease compress your PDF or select a smaller file.`);
+                }, 100);
+                return;
+            }
+
+            // Validation 3: Check if file is empty
+            if (file.size === 0) {
+                fileInfo.classList.add('show', 'error');
+                fileName.textContent = 'Error: Empty file';
+                fileSize.textContent = '';
+                fileInput.value = '';
+
+                setTimeout(() => {
+                    showCustomAlert('error', 'Empty File', 'The selected file is empty.\nPlease select a valid PDF file.');
+                }, 100);
+                return;
+            }
+
+            // File is valid - show success message
+            fileInfo.classList.add('show');
+            fileInfo.classList.remove('error');
+            fileName.textContent = file.name;
+            fileSize.textContent = `File size: ${formatFileSize(file.size)}`;
+
+            // Show confirmation message
+            setTimeout(() => {
+                showCustomAlert('success', 'File Selected Successfully!', `File: ${file.name}\nSize: ${formatFileSize(file.size)}\n\nClick "Evaluate Resume" to proceed.`);
+            }, 100);
+        }
+
+        // Clear selected file
+        function clearFile() {
+            fileInput.value = '';
+            fileName.textContent = '';
+            fileSize.textContent = '';
+            fileInfo.classList.remove('show', 'error');
         }
 
         // ==========================================
@@ -719,9 +1209,29 @@
             const resultOutput = document.getElementById('resultOutput');
             const evaluateBtn = document.getElementById('evaluateBtn');
 
-            // Validation
+            // Validation 1: Check if file is selected
             if (fileInput.files.length === 0) {
-                alert('Please select a PDF file first!');
+                showCustomAlert('error', 'No File Selected', 'Please select a PDF file first!');
+                return;
+            }
+
+            const file = fileInput.files[0];
+
+            // Validation 2: Check file type
+            if (file.type !== 'application/pdf') {
+                showCustomAlert('error', 'Invalid File Type', 'Please upload a PDF file only.');
+                return;
+            }
+
+            // Validation 3: Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                showCustomAlert('error', 'File Size Exceeded', `Your file is ${formatFileSize(file.size)}\nMaximum allowed size is 10 MB.`);
+                return;
+            }
+
+            // Validation 4: Check if file is empty
+            if (file.size === 0) {
+                showCustomAlert('error', 'Empty File', 'The selected file is empty.\nPlease select a valid PDF file.');
                 return;
             }
 
@@ -741,7 +1251,6 @@
             });
 
             // Prepare form data
-            const file = fileInput.files[0];
             const formData = new FormData();
             formData.append('file', file);
             formData.append('questions_data', JSON.stringify(questionsPayload));
