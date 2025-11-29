@@ -482,7 +482,25 @@ async function evaluateResume() {
     }
 }
 
+// ==========================================
+// HANDSHAKE ANIMATION
+// ==========================================
+function initializeHandshakeAnimation() {
+    const container = document.getElementById('handshake-animation');
+
+    if (container && typeof handshakeAnimationData !== 'undefined') {
+        lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: handshakeAnimationData
+        });
+    }
+}
+
 // Initialize on page load
 window.addEventListener('load', () => {
     initializeQuestions();
+    initializeHandshakeAnimation();
 });
