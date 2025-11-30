@@ -383,9 +383,10 @@ function removeQuestion(id) {
 // Initialize with default questions
 function initializeQuestions() {
     const defaultQuestions = [
-        { question: "Does the candidate have background in deep learning", weight: "20" },
-        { question: "Does the candidate studies in UKM/UPM/UM/USM", weight: "10" },
-        { question: "Does the candidate is a female", weight: "10" },
+        { question: "Does the candidate have background in Computer Science and Data analytic", weight: "10" },
+        { question: "Does the candidate have experience in Programming Language (Python or Java .etc)", weight: "10" },
+        { question: "Does the candidate have experience in Project Developement (Java or Python)", weight: "20" }, 
+        { question: "Does the candidate have experience in Machine Learning", weight: "10" },
         { question: "Does the candidate graduate with distinction", weight: "15" }
     ];
 
