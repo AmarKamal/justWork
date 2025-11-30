@@ -390,8 +390,8 @@ function removeQuestion(id) {
 function initializeQuestions() {
     const defaultQuestions = [
         { question: "Does the candidate have background in Computer Science or Data analytic", weight: "10" },
-        { question: "Does the candidate have experience in Programming Language (Python or Java .etc)", weight: "10" },
-        { question: "Does the candidate have experience in Project Developement (Java or Python)", weight: "20" }, 
+        { question: "Does the candidate have experience in Programming Language Python", weight: "10" },
+        { question: "Does the candidate have experience in Project Developement Python", weight: "20" }, 
         { question: "Does the candidate have experience in Machine Learning", weight: "10" },
         { question: "Does the candidate graduate with CGPA 3.5 or above", weight: "15" }
     ];
