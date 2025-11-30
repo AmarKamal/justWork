@@ -323,7 +323,13 @@ function handleFiles(files) {
         return;
     }
 
-    // File is valid - show success message
+    // File is valid - assign to file input
+    // Create a new DataTransfer to assign files to the input element
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    fileInput.files = dataTransfer.files;
+
+    // Show success message
     fileInfo.classList.add('show');
     fileInfo.classList.remove('error');
     fileName.textContent = file.name;
@@ -383,11 +389,11 @@ function removeQuestion(id) {
 // Initialize with default questions
 function initializeQuestions() {
     const defaultQuestions = [
-        { question: "Does the candidate have background in Computer Science and Data analytic", weight: "10" },
+        { question: "Does the candidate have background in Computer Science or Data analytic", weight: "10" },
         { question: "Does the candidate have experience in Programming Language (Python or Java .etc)", weight: "10" },
         { question: "Does the candidate have experience in Project Developement (Java or Python)", weight: "20" }, 
         { question: "Does the candidate have experience in Machine Learning", weight: "10" },
-        { question: "Does the candidate graduate with distinction", weight: "15" }
+        { question: "Does the candidate graduate with CGPA 3.5 or above", weight: "15" }
     ];
 
     defaultQuestions.forEach(q => {
