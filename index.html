@@ -9,6 +9,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <style>
+        .handshake-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            animation: handshakeFloat 3s ease-in-out infinite, fadeInScale 1s ease-out;
+        }
+
+        @keyframes handshakeFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -71,7 +99,7 @@
             <button class="cta-button" onclick="scrollToSection('upload')">Resume Form</button>
         </div>
         <div class="home-illustration">
-            <div id="handshake-animation"></div>
+            <img src="Handshake.png" alt="Handshake" class="handshake-image">
         </div>
     </section>
 
